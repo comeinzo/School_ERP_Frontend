@@ -1790,281 +1790,6 @@
 
 
 
-// import React, { useState, useEffect } from 'react';
-// import { useNavigate, useLocation } from 'react-router-dom';
-// import { authService } from '../../services/authService';
-// import { getSidebarItems } from '../../constants/sidebarItems';
-// import Sidebar from '../../components/Sidebar/Sidebar';
-// import Header from '../../components/Header/Header';
-// import {
-//   Box, Typography, FormControl, InputLabel, Select, MenuItem,
-//   Grid, Card, CardContent
-// } from "@mui/material";
-
-// // Corrected import: Use the dynamic form
-// import AdmissionFeeForm from '../../components/FeeManagement/AdmissionFeeForm';
-
-// import './AdminLayout.css';
-// import { classService } from '../../services/classService';
-// import { feeService } from '../../services/feeService';
-// import dayjs from 'dayjs';
-
-// const AdminFeeManagementLayout = () => {
-//     const [loading, setLoading] = useState(true);
-//     const [user, setUser] = useState(null);
-//     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-//     const [stats, setStats] = useState({
-//         totalStudents: 245,
-//         totalTeachers: 18,
-//         totalClasses: 12,
-//         activeUsers: 156
-//     });
-
-//     const navigate = useNavigate();
-//     const location = useLocation();
-    
-//     const [allClasses, setAllClasses] = useState([]);
-//     const [selectedClassId, setSelectedClassId] = useState('');
-//     const [fees, setFees] = useState({});
-//     const [feeLoading, setFeeLoading] = useState(false);
-    
-//     const [academicYears, setAcademicYears] = useState([]);
-//     const [selectedYear, setSelectedYear] = useState('');
-
-//     const getActiveSection = () => {
-//         const path = location.pathname;
-//         if (path.includes('/fees')) return 'fees';
-//         return 'dashboard';
-//     };
-//     const [activeSection, setActiveSection] = useState(getActiveSection());
-//     const sidebarItems = getSidebarItems(stats);
-
-//     useEffect(() => {
-//         fetchUserData();
-//         fetchClasses();
-//         const savedSidebarState = localStorage.getItem('sidebarCollapsed');
-//         if (savedSidebarState) {
-//             setSidebarCollapsed(JSON.parse(savedSidebarState));
-//         }
-//     }, []);
-
-//     useEffect(() => {
-//         setActiveSection(getActiveSection());
-//     }, [location]);
-
-//     useEffect(() => {
-//         if (selectedClassId) {
-//             fetchAcademicYears(selectedClassId);
-//         }
-//     }, [selectedClassId]);
-
-//     useEffect(() => {
-//         if (selectedClassId && selectedYear) {
-//             fetchFeesForClassAndYear(selectedClassId, selectedYear.start, selectedYear.end);
-//         }
-//     }, [selectedYear]);
-    
-//     const fetchUserData = async () => {
-//         try {
-//             setLoading(true);
-//             const userData = await authService.getCurrentUser();
-//             setUser(userData);
-//         } catch (error) {
-//             console.error('Failed to fetch user data:', error);
-//             if (error.response?.status === 401) {
-//                 navigate('/login');
-//             }
-//         } finally {
-//             setLoading(false);
-//         }
-//     };
-    
-//     const fetchClasses = async () => {
-//         try {
-//             const classes = await classService.getClasses();
-//             setAllClasses(classes);
-//             if (classes.length > 0) {
-//                 setSelectedClassId(classes[0].id);
-//             }
-//         } catch (error) {
-//             console.error('Failed to fetch classes:', error);
-//         }
-//     };
-
-//     const fetchAcademicYears = async (classId) => {
-//         try {
-//             const years = await feeService.getAcademicYearsByClassId(classId);
-//             setAcademicYears(years);
-//             if (years.length > 0) {
-//                 setSelectedYear(years[years.length - 1]);
-//             } else {
-//                 setSelectedYear('');
-//                 setFees({});
-//             }
-//         } catch (error) {
-//             console.error('Failed to fetch academic years:', error);
-//         }
-//     };
-    
-//     const fetchFeesForClassAndYear = async (classId, start, end) => {
-//         setFeeLoading(true);
-//         try {
-//             const classFees = await feeService.getFeesByClassAndYear(classId, start, end);
-//             setFees(classFees || {});
-//         } catch (error) {
-//             console.error('Failed to fetch fees:', error);
-//             setFees({});
-//         } finally {
-//             setFeeLoading(false);
-//         }
-//     };
-    
-//     const handleLogout = async () => {
-//         try {
-//             await authService.logout();
-//             navigate('/login');
-//         } catch (error) {
-//             console.error('Logout error:', error);
-//             navigate('/login');
-//         }
-//     };
-
-//     const handleSectionChange = (sectionId) => {
-//         setActiveSection(sectionId);
-//         switch(sectionId) {
-//             case 'dashboard': navigate('/admin/dashboard'); break;
-//             case 'classes': navigate('/admin/classes'); break;
-//             case 'students': navigate('/admin/students'); break;
-//             case 'teachers': navigate('/admin/teachers'); break;
-//             case 'examinations': navigate('/admin/examinations'); break;
-//             case 'library': navigate('/admin/library'); break;
-//             case 'fees': navigate('/admin/fees'); break;
-//             case 'reports': navigate('/admin/reports'); break;
-//             case 'settings': navigate('/admin/settings'); break;
-//             default: navigate('/admin');
-//         }
-//     };
-
-//     const toggleSidebar = () => {
-//         const newState = !sidebarCollapsed;
-//         setSidebarCollapsed(newState);
-//         localStorage.setItem('sidebarCollapsed', JSON.stringify(newState));
-//     };
-
-//     // Corrected: Implemented the logic for creating, updating, and deleting fees
-//     const handleCreateFees = async (feeData) => {
-//         setFeeLoading(true);
-//         try {
-//             const response = await feeService.addFee(selectedClassId, feeData);
-//             console.log('Fees saved successfully:', response);
-//             setFees(response);
-//         } catch (error) {
-//             console.error('Failed to save fees:', error);
-//         } finally {
-//             setFeeLoading(false);
-//         }
-//     };
-
-//     const handleUpdateFees = async (feeData) => {
-//         setFeeLoading(true);
-//         try {
-//             const response = await feeService.updateFee(selectedClassId, feeData);
-//             console.log('Fees updated successfully:', response);
-//             setFees(response);
-//         } catch (error) {
-//             console.error('Failed to update fees:', error);
-//         } finally {
-//             setFeeLoading(false);
-//         }
-//     };
-    
-//     const handleDeleteFees = async () => {
-//         if (!window.confirm("Are you sure you want to delete these fees?")) return;
-//         setFeeLoading(true);
-//         try {
-//             await feeService.deleteFee(selectedClassId);
-//             console.log('Fees deleted successfully.');
-//             setFees({});
-//         } catch (error) {
-//             console.error('Failed to delete fees:', error);
-//         } finally {
-//             setFeeLoading(false);
-//         }
-//     };
-
-//     if (loading) {
-//         return <p>Loading...</p>;
-//     }
-
-//     return (
-//         <div className="admin-layout">
-//             <Sidebar collapsed={sidebarCollapsed} onToggle={toggleSidebar} activeSection={activeSection} onSectionChange={handleSectionChange} user={user} onLogout={handleLogout} stats={stats} />
-//             <div className={`admin-layout-main ${sidebarCollapsed ? 'expanded' : ''}`}>
-//                 <Header user={user} onLogout={handleLogout} currentSection={activeSection} sidebarItems={sidebarItems} />
-//                 <main className="admin-content">
-//                     <Box sx={{ p: 2 }}>
-//                         <Typography variant="h4" gutterBottom>Fee Management</Typography>
-//                         <Grid container spacing={3}>
-//                             <Grid item xs={12} sm={6}>
-//                                 <FormControl fullWidth>
-//                                     <InputLabel id="select-class-label">Select Class</InputLabel>
-//                                     <Select
-//                                         labelId="select-class-label"
-//                                         value={selectedClassId}
-//                                         label="Select Class"
-//                                         onChange={(e) => setSelectedClassId(e.target.value)}
-//                                     >
-//                                         {allClasses.map((cls) => (
-//                                             <MenuItem key={cls.id} value={cls.id}>
-//                                                 {cls.name} ({cls.medium})
-//                                             </MenuItem>
-//                                         ))}
-//                                     </Select>
-//                                 </FormControl>
-//                             </Grid>
-//                             <Grid item xs={12} sm={6}>
-//                                 <FormControl fullWidth disabled={academicYears.length === 0}>
-//                                     <InputLabel id="select-year-label">Academic Year</InputLabel>
-//                                     <Select
-//                                         labelId="select-year-label"
-//                                         value={selectedYear}
-//                                         label="Academic Year"
-//                                         onChange={(e) => setSelectedYear(e.target.value)}
-//                                         renderValue={(selected) => 
-//                                             `${dayjs(selected.start).format('MMM D, YYYY')} - ${dayjs(selected.end).format('MMM D, YYYY')}`
-//                                         }
-//                                     >
-//                                         {academicYears.map((year, index) => (
-//                                             <MenuItem key={index} value={year}>
-//                                                 {dayjs(year.start).format('MMM D, YYYY')} - {dayjs(year.end).format('MMM D, YYYY')}
-//                                             </MenuItem>
-//                                         ))}
-//                                     </Select>
-//                                 </FormControl>
-//                             </Grid>
-//                         </Grid>
-//                         <Box mt={3}>
-//                             {feeLoading ? <Typography>Loading fees...</Typography> : (
-//                                 <AdmissionFeeForm
-//                                     initialData={fees}
-//                                     onSubmit={handleCreateFees}
-//                                     onUpdate={handleUpdateFees}
-//                                     onDelete={handleDeleteFees}
-//                                     loading={feeLoading}
-//                                 />
-//                             )}
-//                         </Box>
-//                     </Box>
-//                 </main>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default AdminFeeManagementLayout;
-
-
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { authService } from '../../services/authService';
@@ -2073,16 +1798,16 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import Header from '../../components/Header/Header';
 import {
   Box, Typography, FormControl, InputLabel, Select, MenuItem,
-  Grid, Snackbar, Alert, CircularProgress
+  Grid, Card, CardContent
 } from "@mui/material";
 
-// Renamed from DynamicFeeForm to reflect its use case
-import AdmissionFeeForm from '../../components/FeeManagement/AdmissionFeeForm'; 
+// Corrected import: Use the dynamic form
+import AdmissionFeeForm from '../../components/FeeManagement/AdmissionFeeForm';
+
+import './AdminLayout.css';
 import { classService } from '../../services/classService';
 import { feeService } from '../../services/feeService';
 import dayjs from 'dayjs';
-
-import './AdminLayout.css';
 
 const AdminFeeManagementLayout = () => {
     const [loading, setLoading] = useState(true);
@@ -2098,17 +1823,13 @@ const AdminFeeManagementLayout = () => {
     const navigate = useNavigate();
     const location = useLocation();
     
-    // Fee management state
     const [allClasses, setAllClasses] = useState([]);
     const [selectedClassId, setSelectedClassId] = useState('');
-    const [fees, setFees] = useState(null); // Use null for no data
+    const [fees, setFees] = useState({});
     const [feeLoading, setFeeLoading] = useState(false);
     
     const [academicYears, setAcademicYears] = useState([]);
-    const [selectedYear, setSelectedYear] = useState(null); // Use null for initial/empty state
-
-    // Snackbar state for user feedback
-    const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'info' });
+    const [selectedYear, setSelectedYear] = useState('');
 
     const getActiveSection = () => {
         const path = location.pathname;
@@ -2118,7 +1839,6 @@ const AdminFeeManagementLayout = () => {
     const [activeSection, setActiveSection] = useState(getActiveSection());
     const sidebarItems = getSidebarItems(stats);
 
-    // Initial data fetch
     useEffect(() => {
         fetchUserData();
         fetchClasses();
@@ -2132,7 +1852,6 @@ const AdminFeeManagementLayout = () => {
         setActiveSection(getActiveSection());
     }, [location]);
 
-    // Chain fetches: Class -> Academic Years -> Fee Structure
     useEffect(() => {
         if (selectedClassId) {
             fetchAcademicYears(selectedClassId);
@@ -2142,10 +1861,8 @@ const AdminFeeManagementLayout = () => {
     useEffect(() => {
         if (selectedClassId && selectedYear) {
             fetchFeesForClassAndYear(selectedClassId, selectedYear.start, selectedYear.end);
-        } else {
-            setFees(null); // Clear fees if no year is selected
         }
-    }, [selectedClassId, selectedYear]); // Depend on both
+    }, [selectedYear]);
     
     const fetchUserData = async () => {
         try {
@@ -2171,7 +1888,6 @@ const AdminFeeManagementLayout = () => {
             }
         } catch (error) {
             console.error('Failed to fetch classes:', error);
-            setSnackbar({ open: true, message: 'Failed to load classes.', severity: 'error' });
         }
     };
 
@@ -2179,16 +1895,14 @@ const AdminFeeManagementLayout = () => {
         try {
             const years = await feeService.getAcademicYearsByClassId(classId);
             setAcademicYears(years);
-            // Automatically select the latest academic year, or clear selection if none exist
             if (years.length > 0) {
                 setSelectedYear(years[years.length - 1]);
             } else {
-                setSelectedYear(null);
-                setFees(null);
+                setSelectedYear('');
+                setFees({});
             }
         } catch (error) {
             console.error('Failed to fetch academic years:', error);
-            setSnackbar({ open: true, message: 'Failed to load academic years.', severity: 'error' });
         }
     };
     
@@ -2196,10 +1910,10 @@ const AdminFeeManagementLayout = () => {
         setFeeLoading(true);
         try {
             const classFees = await feeService.getFeesByClassAndYear(classId, start, end);
-            setFees(classFees || null); // Use null if no fees are found to reset the form
+            setFees(classFees || {});
         } catch (error) {
             console.error('Failed to fetch fees:', error);
-            setFees(null);
+            setFees({});
         } finally {
             setFeeLoading(false);
         }
@@ -2237,75 +1951,49 @@ const AdminFeeManagementLayout = () => {
         localStorage.setItem('sidebarCollapsed', JSON.stringify(newState));
     };
 
-    // --- CRUD Handlers with User Feedback ---
+    // Corrected: Implemented the logic for creating, updating, and deleting fees
     const handleCreateFees = async (feeData) => {
         setFeeLoading(true);
         try {
             const response = await feeService.addFee(selectedClassId, feeData);
-            setFees(response); // Update state with the newly created fee structure
-            setSnackbar({ open: true, message: 'Fee structure saved successfully!', severity: 'success' });
-            // Refresh academic years to include the new one if necessary
-            await fetchAcademicYears(selectedClassId);
+            console.log('Fees saved successfully:', response);
+            setFees(response);
         } catch (error) {
             console.error('Failed to save fees:', error);
-            setSnackbar({ open: true, message: 'Failed to save fees.', severity: 'error' });
         } finally {
             setFeeLoading(false);
         }
     };
 
     const handleUpdateFees = async (feeData) => {
-        if (!fees?.id) {
-            setSnackbar({ open: true, message: 'Cannot update. Fee ID is missing.', severity: 'error' });
-            return;
-        }
         setFeeLoading(true);
         try {
-            // Corrected: Pass the specific fee ID to the service
-            const response = await feeService.updateFee(fees.id, feeData);
+            const response = await feeService.updateFee(selectedClassId, feeData);
+            console.log('Fees updated successfully:', response);
             setFees(response);
-            setSnackbar({ open: true, message: 'Fee structure updated successfully!', severity: 'success' });
         } catch (error) {
             console.error('Failed to update fees:', error);
-            setSnackbar({ open: true, message: 'Failed to update fees.', severity: 'error' });
         } finally {
             setFeeLoading(false);
         }
     };
     
     const handleDeleteFees = async () => {
-        if (!fees?.id) {
-            setSnackbar({ open: true, message: 'Cannot delete. Fee ID is missing.', severity: 'error' });
-            return;
-        }
-        if (!window.confirm("Are you sure you want to delete this fee structure? This action cannot be undone.")) return;
-        
+        if (!window.confirm("Are you sure you want to delete these fees?")) return;
         setFeeLoading(true);
         try {
-            // Corrected: Pass the specific fee ID to the service
-            await feeService.deleteFee(fees.id);
-            setSnackbar({ open: true, message: 'Fee structure deleted successfully.', severity: 'success' });
-            setFees(null); // Clear the form
-            await fetchAcademicYears(selectedClassId); // Refresh years list
+            await feeService.deleteFee(selectedClassId);
+            console.log('Fees deleted successfully.');
+            setFees({});
         } catch (error) {
             console.error('Failed to delete fees:', error);
-            setSnackbar({ open: true, message: 'Failed to delete fees.', severity: 'error' });
         } finally {
             setFeeLoading(false);
         }
     };
-    
-    const handleCloseSnackbar = (event, reason) => {
-        if (reason === 'clickaway') return;
-        setSnackbar(prev => ({ ...prev, open: false }));
-    };
 
     if (loading) {
-        return (
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-                <CircularProgress />
-            </Box>
-        );
+        return <p>Loading...</p>;
     }
 
     return (
@@ -2314,10 +2002,10 @@ const AdminFeeManagementLayout = () => {
             <div className={`admin-layout-main ${sidebarCollapsed ? 'expanded' : ''}`}>
                 <Header user={user} onLogout={handleLogout} currentSection={activeSection} sidebarItems={sidebarItems} />
                 <main className="admin-content">
-                    <Box sx={{ p: 3 }}>
+                    <Box sx={{ p: 2 }}>
                         <Typography variant="h4" gutterBottom>Fee Management</Typography>
-                        <Grid container spacing={3} sx={{ mb: 3 }}>
-                            <Grid item xs={12} md={6}>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} sm={6}>
                                 <FormControl fullWidth>
                                     <InputLabel id="select-class-label">Select Class</InputLabel>
                                     <Select
@@ -2334,17 +2022,16 @@ const AdminFeeManagementLayout = () => {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12} md={6}>
-                                <FormControl fullWidth disabled={!selectedClassId || academicYears.length === 0}>
+                            <Grid item xs={12} sm={6}>
+                                <FormControl fullWidth disabled={academicYears.length === 0}>
                                     <InputLabel id="select-year-label">Academic Year</InputLabel>
                                     <Select
                                         labelId="select-year-label"
-                                        value={selectedYear || ''} // Handle null state
+                                        value={selectedYear}
                                         label="Academic Year"
                                         onChange={(e) => setSelectedYear(e.target.value)}
-                                        // Render a user-friendly format, handle null case
                                         renderValue={(selected) => 
-                                            selected ? `${dayjs(selected.start).format('MMM D, YYYY')} - ${dayjs(selected.end).format('MMM D, YYYY')}` : <em>Select a year</em>
+                                            `${dayjs(selected.start).format('MMM D, YYYY')} - ${dayjs(selected.end).format('MMM D, YYYY')}`
                                         }
                                     >
                                         {academicYears.map((year, index) => (
@@ -2356,13 +2043,9 @@ const AdminFeeManagementLayout = () => {
                                 </FormControl>
                             </Grid>
                         </Grid>
-                        
-                        <Box mt={2}>
-                            {feeLoading ? (
-                                <Box sx={{ display: 'flex', justifyContent: 'center', p: 5 }}><CircularProgress /></Box>
-                            ) : (
+                        <Box mt={3}>
+                            {feeLoading ? <Typography>Loading fees...</Typography> : (
                                 <AdmissionFeeForm
-                                    key={fees?.id || 'new-form'} // Force re-render when data changes
                                     initialData={fees}
                                     onSubmit={handleCreateFees}
                                     onUpdate={handleUpdateFees}
@@ -2374,11 +2057,6 @@ const AdminFeeManagementLayout = () => {
                     </Box>
                 </main>
             </div>
-            <Snackbar open={snackbar.open} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-                <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
-                    {snackbar.message}
-                </Alert>
-            </Snackbar>
         </div>
     );
 };
