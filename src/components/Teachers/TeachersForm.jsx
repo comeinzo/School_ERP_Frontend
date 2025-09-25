@@ -101,31 +101,6 @@ const TeacherForm = ({ onSubmit, onPreview, onChange, loading, initialData = nul
     return Object.keys(newErrors).length === 0;
   };
 
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     if (validateForm()) {
-//       // Create a clean payload with correct data types and no extra fields
-//       const payload = {
-//         full_name: formData.name,
-//         fathers_name: formData.fathers_name,
-//         address: formData.address,
-//         pin_code: formData.pin_code,
-//         age: parseInt(formData.age, 10), // Convert age to integer
-//         gender: formData.gender,
-//         aadhar_no: formData.aadhar_no,
-//         ph_number: formData.ph_number,
-//         date_of_birth: formData.date_of_birth.format('YYYY-MM-DD'), // Format date to YYYY-MM-DD string
-//         highest_education: formData.highest_education,
-//         languages: formData.languages,
-//         class_type: formData.class_type,
-//         description: formData.description,
-//       };
-      
-//       onSubmit(payload);
-//     }
-//   };
-
-// ... (rest of the component code)
 
 const handleSubmit = (e) => {
     e.preventDefault();
