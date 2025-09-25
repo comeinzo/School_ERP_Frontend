@@ -5,7 +5,8 @@ import { getSidebarItems } from '../../constants/sidebarItems';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Header from '../../components/Header/Header';
 import AddTeachers from '../../pages/AddTeachers/AddTeachers';
-import ViewClasses from '../../pages/ViewClasses/ViewClasses'; 
+import AddClassTeacher from '../../pages/AddTeachers/AddClassTeacher'; 
+import ViewClassTeacher from '../../pages/AddTeachers/ViewClassTeacher'
 import './AdminLayout.css';
 
 const AdminAddClassLayout = () => {
@@ -89,9 +90,12 @@ const AdminAddClassLayout = () => {
     // Conditional rendering based on the active sub-section
     const renderContent = () => {
         if (activeClassSubSection === 'view-classes') {
-            return <ViewClasses stats={stats} />;
+            return <AddClassTeacher stats={stats} />;
         } else if (activeClassSubSection === 'add-class') {
             return <AddTeachers stats={stats} />;
+        }
+        else if(activeClassSubSection==='view-teacher'){
+          return<ViewClassTeacher stats={stats}/>;
         }
     };
     
@@ -188,7 +192,13 @@ const AdminAddClassLayout = () => {
                             className={activeClassSubSection === 'view-classes' ? 'active-tab' : ''}
                             onClick={() => handleClassSubSectionChange('view-classes')}
                         >
-                            View Classes
+                            Assign Class teacher
+                        </button>
+                                                <button
+                            className={activeClassSubSection === 'view-teacher' ? 'active-tab' : ''}
+                            onClick={() => handleClassSubSectionChange('view-teacher')}
+                        >
+                            view Class teacher
                         </button>
                     </div>
                 </div>

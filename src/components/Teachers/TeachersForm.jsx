@@ -22,6 +22,7 @@ const TeacherForm = ({ onSubmit, onPreview, onChange, loading, initialData = nul
     ph_number: '',
     date_of_birth: null,
     highest_education: '',
+    Subject_to_Teach:'',
     languages: [],
     class_type: '',
     description: '',
@@ -93,6 +94,7 @@ const TeacherForm = ({ onSubmit, onPreview, onChange, loading, initialData = nul
     if (!formData.ph_number) newErrors.ph_number = 'Phone number is required';
     if (!formData.date_of_birth) newErrors.date_of_birth = 'Date of Birth is required';
     if (!formData.highest_education) newErrors.highest_education = 'Highest Education is required';
+    if (!formData.Subject_to_Teach) newErrors.Subject_to_Teach = 'Subject to Teach is required';
     if (!formData.languages || formData.languages.length === 0) newErrors.languages = 'At least one language is required';
 
     setErrors(newErrors);
@@ -140,6 +142,7 @@ const handleSubmit = (e) => {
         ph_number: formData.ph_number,
         date_of_birth: formData.date_of_birth.format('YYYY-MM-DD'), // Format date to YYYY-MM-DD string
         highest_education: formData.highest_education,
+        Subject_to_Teach: formData.Subject_to_Teach,
         languages: formData.languages,
         class_type: formData.class_type,
         description: formData.description,
@@ -205,6 +208,9 @@ const handleSubmit = (e) => {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField fullWidth required label="Highest Education" name="highest_education" value={formData.highest_education} onChange={handleInputChange} error={!!errors.highest_education} helperText={errors.highest_education} />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField fullWidth required label="Subject to Teach" name="Subject_to_Teach" value={formData.Subject_to_Teach} onChange={handleInputChange} error={!!errors.Subject_to_Teach} helperText={errors.Subject_to_Teach} />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField fullWidth label="Class Type" name="class_type" value={formData.class_type} onChange={handleInputChange} />

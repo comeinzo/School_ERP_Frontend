@@ -186,6 +186,7 @@ const AddTeacher = () => {
         ph_number: data.ph_number,
         date_of_birth: data.date_of_birth, // dayjs object is handled by API
         highest_education: data.highest_education,
+        Subject_to_Teach: data.Subject_to_Teach,
         languages: data.languages,
         class_type: data.class_type,
         description: data.description,
@@ -197,7 +198,7 @@ const AddTeacher = () => {
       
       setToast({
         show: true,
-        message: `Teacher "${data.name}" added successfully!`,
+        message: `Teacher "${data.full_name}" added successfully!`,
         type: 'success'
       });
 

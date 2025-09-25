@@ -88,6 +88,7 @@ export const feeService = {
    * @returns {Promise<object>} The saved fee data.
    */
   async addFee(classId, feeData) {
+    console.log("add fee data before -------------",feeData)
     const response = await api.post(`/fees/${classId}`, feeData);
     return response.data;
   },
@@ -99,7 +100,9 @@ export const feeService = {
    * @returns {Promise<object>} The updated fee data.
    */
   async updateFee(classId, feeData) {
+    console.log("update fee data before -------------",feeData)
     const response = await api.put(`/fees/${classId}`, feeData);
+    console.log("fee service-------------",response.data)
     return response.data;
   },
 
@@ -152,16 +155,16 @@ export const feeService = {
       return response.data;
   },
   
-  /**
-   * Creates a new fee record for a specific class.
-   * @param {number} classId - The ID of the class.
-   * @param {object} feeData - The complete fee data.
-   * @returns {Promise<object>} The saved fee data.
-   */
-  async addFee(classId, feeData) {
-    const response = await api.post(`/fees/${classId}`, feeData);
-    return response.data;
-  },
+  // /**
+  //  * Creates a new fee record for a specific class.
+  //  * @param {number} classId - The ID of the class.
+  //  * @param {object} feeData - The complete fee data.
+  //  * @returns {Promise<object>} The saved fee data.
+  //  */
+  // async addFee(classId, feeData) {
+  //   const response = await api.post(`/fees/${classId}`, feeData);
+  //   return response.data;
+  // },
 
 
 

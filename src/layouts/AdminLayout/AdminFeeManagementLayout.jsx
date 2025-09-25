@@ -1953,6 +1953,7 @@ const AdminFeeManagementLayout = () => {
 
     // Corrected: Implemented the logic for creating, updating, and deleting fees
     const handleCreateFees = async (feeData) => {
+        console.log("fee data------------------",feeData)
         setFeeLoading(true);
         try {
             const response = await feeService.addFee(selectedClassId, feeData);
@@ -1966,6 +1967,7 @@ const AdminFeeManagementLayout = () => {
     };
 
     const handleUpdateFees = async (feeData) => {
+        console.log("fee data------------------",feeData)
         setFeeLoading(true);
         try {
             const response = await feeService.updateFee(selectedClassId, feeData);

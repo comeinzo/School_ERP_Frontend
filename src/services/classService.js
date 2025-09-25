@@ -46,5 +46,37 @@ export const classService = {
       params: { className, medium }
     });
     return response.data;
-  }
+  },
+
+
+
+
+  /**
+   * Adds a new mapping to the master_classes table.
+   * @param {object} mappingData - The mapping data for a single division and teacher.
+   * @returns {Promise<object>} The newly created mapping record.
+   */
+  async addMasterClassMapping(mappingData) {
+    const response = await api.post('/master-classes', mappingData);
+    return response.data;
+  },
+  async getMasterClassDetails(){
+    const response=await api.get('/master-classes/view');
+    return response.data;
+  },
+
+  /**
+   * Updates an existing master class mapping with a PATCH request.
+   * @param {number} classId - The ID of the class.
+   * @param {string} division - The division of the class.
+   * @param {object} updatedData - The data to update (e.g., { class_teacher_id: 5 }).
+   * @returns {Promise<object>} The updated mapping record.
+   */
+  async updateMasterClass(classId, division, updatedData) {
+    console.log("classss_id",classId )
+    console.log("division",division )
+    // Corrected: The URL now uses the classId and division variables
+    const response = await api.patch(`/master-classes/${classId}/${division}`, updatedData);
+    return response.data;
+  },
 };
