@@ -3345,8 +3345,8 @@ const createPayload = () => {
         ...item,
         
         // 2. Overwrite the date properties with formatted strings
-        startDate: item.startDate?.format('YYYY-MM-DD') || null,
-        dueDate: item.dueDate?.format('YYYY-MM-DD') || null,
+        fee_start_date: item.startDate?.format('YYYY-MM-DD') || null,
+        fee_due_date: item.dueDate?.format('YYYY-MM-DD') || null,
       })),
     total_fee: total,
     quarterly_fee: quarterlyTotal,
