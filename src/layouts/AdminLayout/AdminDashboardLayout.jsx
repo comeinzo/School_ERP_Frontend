@@ -5,18 +5,88 @@ import { getSidebarItems } from '../../constants/sidebarItems';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Header from '../../components/Header/Header';
 import DashboardView from '../../components/Dashboard/DashboardView';
+import { teacherService } from '../../services/teacherService';
+import { studentService } from '../../services/studentService';
 import './AdminLayout.css';
 
 const AdminLayout = () => {
   const [user, setUser] = useState(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [teacherCount, setTeacherCount] = useState(0);
+  const [teachers, setTeachers] = useState([]); // Also good to store the data itself
+
   const [stats, setStats] = useState({
-    totalStudents: 245,
-    totalTeachers: 18,
+    totalStudents: 0,
+    totalTeachers: 0,
     totalClasses: 12,
     activeUsers: 156
   });
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const fetchedTeachers = await teacherService.getTeachers();
+        const fetchedStudents = await studentService.getStudents();
+        
+        // --- FIX 1: Check both variables separately ---
+        if (Array.isArray(fetchedTeachers) && Array.isArray(fetchedStudents)) {
+          const teachercount = fetchedTeachers.length;
+          const studentCount = fetchedStudents.length;
+
+          // // Store the actual data in state
+          // setTeachers(fetchedTeachers); 
+          // setStudents(fetchedStudents); // Assumes you have a setStudents state setter
+          
+          // Update the stats object with the new counts
+          setStats(prevStats => ({
+            ...prevStats,
+            totalTeachers: teachercount,
+            totalStudents: studentCount,
+          }));
+
+          // --- FIX 2: Use the correct variable names ---
+          console.log("Total teachers found:", teachercount);
+          console.log("Total students found:", studentCount);
+
+        } else {
+            console.error("Fetched data is not in the expected array format.");
+        }
+      } catch (error) {
+        console.error('Failed to fetch data:', error);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty array ensures this runs only once
+  
+  //  useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const fetchedTeachers = await teacherService.getTeachers();
+        
+  //       if (Array.isArray(fetchedTeachers)) {
+  //         const count = fetchedTeachers.length;
+  //         // setTeachers(fetchedTeachers); // Store the teacher data
+          
+  //         // --- THIS IS THE FIX ---
+  //         // Update the stats object with the new teacher count
+  //         setStats(prevStats => ({
+  //           ...prevStats, // Keep the old values for students, classes, etc.
+  //           totalTeachers: count // Overwrite totalTeachers with the new count
+  //         }));
+
+  //         console.log("Total teachers found:", count);
+  //       }
+  //     } catch (error) {
+  //       console.error('Failed to fetch data:', error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []); // Empty array ensures this runs only once
+
   
   const navigate = useNavigate();
   const location = useLocation();

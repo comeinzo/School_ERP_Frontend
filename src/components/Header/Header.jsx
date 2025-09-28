@@ -12,9 +12,6 @@ const Header = ({ user, onLogout, currentSection, sidebarItems }) => {
         <h1 className="page-title">
           {currentItem?.title || 'Dashboard'}
         </h1>
-        <p className="page-subtitle">
-          {currentItem?.description || 'School Management System'}
-        </p>
       </div>
       <div className="header-right">
         <div className="notification-bell">
