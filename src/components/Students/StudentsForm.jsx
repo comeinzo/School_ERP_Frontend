@@ -373,28 +373,6 @@ const StudentAdmissionForm = ({
     <Divider sx={{ my: 2, bgcolor: "rgba(255,255,255,0.2)" }} />
 
             <Typography variant="h5" gutterBottom>👶 Student Information</Typography>
-              {/* <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                <Avatar 
-                  sx={{ 
-                    bgcolor: 'primary.light', // A light background for the icon
-                    mr: 2,                  // Margin to the right of the icon
-                    width: 48,
-                    height: 48
-                  }}
-                >
-                  <BadgeIcon sx={{ color: 'primary.main' }} />
-                </Avatar>
-                <Typography 
-                  variant="h5" 
-                  sx={{ 
-                    fontWeight: 600,        // A bolder font weight
-                    color: 'text.primary'   // Use the primary text color from your theme
-                  }}
-                >
-              
-                  Student Information
-                </Typography>      
-                </Box> */}
             <Grid container spacing={2} xs={12} sm={6} sx={{ flexGrow: 1 }}>
               <Grid item xs={12} sm={6}>
                 <TextField 
@@ -798,32 +776,6 @@ const StudentAdmissionForm = ({
                   </FormControl>
                 </Grid>
               )}
-
-              {/* Photo upload field */}
-              {/* <Grid item xs={12} sm={6}>
-                <Box>
-                  <FormLabel className="stylish-input" component="legend" sx={{ mb: 1, display: 'block' }}>
-                    Student Photo
-                  </FormLabel>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    name="photo"
-                    onChange={handleInputChange}
-                    style={{
-                      width: '100%',
-                      padding: '8px',
-                      border: '1px solid #ccc',
-                      borderRadius: '4px'
-                    }}
-                  />
-                  {formData.photo && (
-                    <Typography variant="body2" color="success.main" sx={{ mt: 1 }}>
-                      Selected: {formData.photo.name}
-                    </Typography>
-                  )}
-                </Box>
-              </Grid> */}
             </Grid>
           </CardContent>
         </Card>

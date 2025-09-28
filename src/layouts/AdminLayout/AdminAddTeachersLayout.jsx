@@ -577,7 +577,7 @@ const AdminAddTeacherLayout = () => {
                 />
                 <main className="admin-content">
                     <div className="class-management-header">
-                        <Box sx={{ borderBottom: 1, borderColor: 'divider', width: '100%', bgcolor: 'background.paper' }}>
+                        <Box sx={{ borderBottom: .1, borderColor: 'divider', width: '100%', bgcolor: 'background.paper' }}>
                             <Tabs
                                 value={activeTab}
                                 onChange={handleTabChange}

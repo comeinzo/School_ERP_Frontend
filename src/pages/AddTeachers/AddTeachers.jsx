@@ -204,7 +204,7 @@ const AddTeacher = () => {
 
       // Redirect to the teachers view page
       setTimeout(() => {
-        navigate('/admin/teachers/view');
+        navigate('/admin/teachers/');
       }, 2000);
 
     } catch (error) {
@@ -226,12 +226,7 @@ const AddTeacher = () => {
 
   return (
     <div className="add-teacher-page">
-      <div className="page-header">
-        <h1>Add New Teacher</h1>
-        <p>Add new teachers to your school</p>
-      </div>
-
-      <div className="content-grid">
+      {/* <div className="content-grid"> */}
         <div className="form-section">
           <TeachersForm 
             onSubmit={handleSubmit}
@@ -249,7 +244,7 @@ const AddTeacher = () => {
             />
           </div>
         )}
-      </div>
+      {/* </div> */}
 
       {toast.show && (
         <Toast 
