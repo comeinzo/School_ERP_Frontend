@@ -456,6 +456,44 @@ const StudentAdmissionForm = ({
                 </FormControl>
               </Grid>
 
+                            {/* <Grid item xs={12} sm={6}>
+                <FormControl fullWidth required error={!!errors.gender}>
+                  <FormLabel id="gender-label">Gender</FormLabel>
+                  <RadioGroup 
+                    row 
+                    aria-labelledby="gender-label" 
+                    name="gender" 
+                    value={formData.gender} 
+                    onChange={handleInputChange}
+                  >
+                    <FormControlLabel value="male" control={<Radio />} label="Male" />
+                    <FormControlLabel value="female" control={<Radio />} label="Female" />
+                    <FormControlLabel value="other" control={<Radio />} label="Other" />
+                  </RadioGroup>
+                  {errors.gender && <Typography color="error" variant="body2">{errors.gender}</Typography>}
+                </FormControl>
+              </Grid> */}
+
+
+<Grid item xs={12} sm={6}>
+  <FormControl fullWidth required error={!!errors.gender} className="stylish-input">
+    <InputLabel id="gender-label">Gender</InputLabel>
+    <Select
+      labelId="gender-label"
+      label="Gender"
+      name="gender"
+      value={formData.gender}
+      onChange={handleInputChange}
+    >
+      <MenuItem value=""><em>Select Gender</em></MenuItem>
+      <MenuItem value="male">Male</MenuItem>
+      <MenuItem value="female">Female</MenuItem>
+      <MenuItem value="other">Other</MenuItem>
+    </Select>
+    {/* FormHelperText is the standard way to show errors/help text in a FormControl */}
+    {errors.gender && <FormHelperText>{errors.gender}</FormHelperText>}
+  </FormControl>
+</Grid>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth className="stylish-input" >
                   <InputLabel id="blood-group-label">Blood Group</InputLabel>
