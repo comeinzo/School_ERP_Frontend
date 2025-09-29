@@ -486,7 +486,9 @@ const TeacherForm = ({ onSubmit, onPreview, onChange, loading, initialData = nul
             />
             <Grid container spacing={1}>
               <Grid item xs={12} md={4}>
-                <TextField fullWidth required label="Phone Number" name="ph_number" value={formData.ph_number} onChange={handleInputChange} error={!!errors.ph_number} helperText={errors.ph_number} />
+                <TextField fullWidth required label="Phone Number" name="ph_number" value={formData.ph_number} onChange={handleInputChange} error={!!errors.ph_number} helperText={errors.ph_number} inputProps={{
+      maxLength: 10,
+    }} />
               </Grid>
               <Grid item xs={12} md={8}>
                 <TextField fullWidth required label="Address" name="address" value={formData.address} onChange={handleInputChange} error={!!errors.address} helperText={errors.address} />
