@@ -1,6 +1,7 @@
 import React from 'react';
 // import './ClassCard.css';
 
+
 const ClassCard = ({ classData, onEdit, onDelete, onView, viewMode }) => {
   const { className, medium, divisions, maxStudentsPerDivision, classTeacher, room } = classData;
 
