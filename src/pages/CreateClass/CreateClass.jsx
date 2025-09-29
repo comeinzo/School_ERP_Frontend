@@ -80,15 +80,9 @@ const CreateClass = () => {
 
   return (
     <div className="create-class-page">
-      <div className="page-header">
-        {/* <button className="back-btn" onClick={() => navigate('/admin/classes')}>
-          ← Back to Classes
-        </button> */}
-        <h1>Create New Class</h1>
-        <p>Add a new class with divisions to your school</p>
-      </div>
 
-      <div className="content-grid">
+
+      {/* <div className="content-grid"> */}
         <div className="form-section">
           <ClassForm 
             onSubmit={handleSubmit}
@@ -106,7 +100,7 @@ const CreateClass = () => {
             />
           </div>
         )}
-      </div>
+      {/* </div> */}
 
       {toast.show && (
         <Toast 
