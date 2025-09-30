@@ -282,6 +282,41 @@ const AdminAddClassLayout = () => {
   };
 
 
+  const handleSectionChange = (sectionId) => {
+    setActiveSection(sectionId);
+    switch(sectionId) {
+      case 'dashboard':
+        navigate('/Admin/Dashboard');
+        break;
+      case 'classes':
+        navigate('/admin/classes');
+        break;
+      case 'students':
+        navigate('/admin/students');
+        break;
+      case 'teachers':
+        navigate('/admin/Teachers');
+        break;
+      case 'examinations':
+        navigate('/admin/examinations');
+        break;
+      case 'library':
+        navigate('/admin/library');
+        break;
+      case 'fees':
+        navigate('/admin/fees');
+        break;
+      case 'reports':
+        navigate('/admin/reports');
+        break;
+      case 'settings':
+        navigate('/admin/settings');
+        break;
+      default:
+        navigate('/admin');
+    }
+  };
+
   // --- New handler for MUI Tabs ---
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -299,10 +334,10 @@ const AdminAddClassLayout = () => {
     }
   };
 
-  const handleSectionChange = (sectionId) => {
-    setActiveSection(sectionId);
-    navigate(`/admin/${sectionId}`);
-  };
+  // const handleSectionChange = (sectionId) => {
+  //   setActiveSection(sectionId);
+  //   navigate(`/admin/${sectionId}`);
+  // };
 
   const toggleSidebar = () => {
     const newState = !sidebarCollapsed;
